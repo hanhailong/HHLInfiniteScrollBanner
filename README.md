@@ -1,0 +1,2 @@
+# HHLInfiniteScrollBanner
+使用UICollectionView来实现无限滚动的Banner视图
