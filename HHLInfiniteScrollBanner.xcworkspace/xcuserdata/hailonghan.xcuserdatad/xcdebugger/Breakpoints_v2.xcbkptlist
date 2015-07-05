@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HHLInfiniteScrollBanner/ViewController.m"
-            timestampString = "457802618.02565"
+            timestampString = "457803506.684464"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HHLInfiniteScrollBanner/ViewController.m"
-            timestampString = "457802636.102564"
+            timestampString = "457804569.338444"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "-setUpInfiniteScrollView"
             landmarkType = "5">
          </BreakpointContent>

@@ -12,6 +12,7 @@
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) InfiniteScrollViewController *mBannerVC;
+@property (nonatomic,strong) UITableView *mTableView;
 
 @end
 
@@ -20,15 +21,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 20, ScreenWidth, ScreenHeight-20)];
+    self.view.backgroundColor = [UIColor lightGrayColor];
+
+    [self setupTableView];
+    
     [self setUpInfiniteScrollView];
     
 }
 
+- (void)setupTableView{
+    self.mTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        
+        [self.view addSubview:tableView];
+        tableView;
+    });
+    
+    //添加下拉刷新
+    self.mTableView.header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    [self.mTableView.header beginRefreshing];
+}
+
+- (void)refreshData{
+    //延迟3秒
+    [self performSelector:@selector(finishRefresh) withObject:self afterDelay:3.0];
+}
+
+- (void)finishRefresh{
+    [self.mTableView.header endRefreshing];
+}
+
 - (void)setUpInfiniteScrollView{
-    self.mBannerVC.view.frame = CGRectMake(0, 0, ScreenWidth, BannerHeight);
+    self.mBannerVC.view.bounds = CGRectMake(0, 0, ScreenWidth, BannerHeight);
     self.mBannerVC.view.backgroundColor = [UIColor redColor];
-    [self.view addSubview:self.mBannerVC.view];
+    self.mTableView.tableHeaderView = self.mBannerVC.view;
 }
 
 //懒加载
@@ -41,6 +71,21 @@
 }
 
 #pragma mark - UITableView Delegate
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 20;
+}
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellId = @"TableView_Cell_Id";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    
+    cell.textLabel.text = @"你好啊";
+    
+    return cell;
+}
 
 @end
