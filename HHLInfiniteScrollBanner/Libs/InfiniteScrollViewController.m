@@ -7,6 +7,8 @@
 //
 
 #define Cell_Id @"Cell_Id"
+#define InfiniteScrollSectionCount 11
+#define InfiniteScrollCenterSectionPosition (int)(InfiniteScrollSectionCount*0.5)
 
 #import "InfiniteScrollViewController.h"
 #import "InfiniteScrollCell.h"
@@ -14,6 +16,8 @@
 @interface InfiniteScrollViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (nonatomic,strong) UICollectionView *mCollectionView;
+@property (nonatomic,strong) UIPageControl *mPageControl;
+@property (nonatomic,strong) NSTimer *mAutoScrollTimer;
 
 @end
 
@@ -23,6 +27,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addCollecitonView];
+    
+    [self addPageControl];
+    
+    //显示中间那一组
+    if (self.dataList.count) {
+        //中间那一组的第0个位置
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:InfiniteScrollCenterSectionPosition];
+        [self.mCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    }
+    
+    //添加NSTimer，让UICollectionView自己滚动
+    [self addAutoScrollTimer];
 }
 
 //懒加载
@@ -68,16 +84,60 @@
     self.mCollectionView.showsVerticalScrollIndicator = NO;
     
     //设置contentSize
-    self.mCollectionView.contentSize = CGSizeMake(self.dataList.count*ScreenWidth, 0);
+    self.mCollectionView.contentSize = CGSizeMake(self.dataList.count*ScreenWidth*InfiniteScrollSectionCount, 0);
     
     //注册
     [self.mCollectionView registerClass:[InfiniteScrollCell class] forCellWithReuseIdentifier:Cell_Id];
     
 }
 
-#pragma mark- UICollectionView Delegate
+#pragma mark - 添加UIPageControl
+- (void)addPageControl{
+#warning 添加UIPageControl
+    
+}
+
+/**
+ *添加自动滚动计时器
+ */
+- (void)addAutoScrollTimer {
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(nextPage) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    self.mAutoScrollTimer = timer;
+}
+
+//下一页
+- (void)nextPage{
+    if (self.dataList.count) {
+        //获取当前的indexpath
+        NSIndexPath *currentIndexPath = [[self.mCollectionView indexPathsForVisibleItems] lastObject];
+        
+        //重置当前的indexpath.section.item不变
+        NSIndexPath *resetIndexPath = [NSIndexPath indexPathForItem:currentIndexPath.item inSection:InfiniteScrollCenterSectionPosition];
+        
+        //设置cell的显示位置
+        [self.mCollectionView scrollToItemAtIndexPath:resetIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+        
+        //计算下一个要显示的位置
+        NSInteger totalItemCount = self.dataList.count;
+        NSInteger nextItem = currentIndexPath.item + 1;
+        NSInteger nextSection = InfiniteScrollCenterSectionPosition;
+        
+        if (nextItem == totalItemCount) {
+            //从头开始
+            nextItem = 0;
+            nextSection++;
+        }
+        
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:nextItem inSection:nextSection];
+        //带动画滑动到下一页
+        [self.mCollectionView scrollToItemAtIndexPath:nextIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    }
+}
+
+#pragma mark- UICollectionView DataSource Delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
+    return InfiniteScrollSectionCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -92,6 +152,18 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.dataList.count;
+}
+
+#pragma mark - UIScrollView Delegate
+//将要开始触摸拖拽，让定时器失效
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self.mAutoScrollTimer invalidate];
+    self.mAutoScrollTimer = nil;
+}
+
+//结束拖拽
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [self addAutoScrollTimer];
 }
 
 @end
