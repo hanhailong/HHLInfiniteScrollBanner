@@ -44,7 +44,7 @@
     });
     
     //添加下拉刷新
-    self.mTableView.header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.mTableView.header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     [self.mTableView.header beginRefreshing];
 }
 
