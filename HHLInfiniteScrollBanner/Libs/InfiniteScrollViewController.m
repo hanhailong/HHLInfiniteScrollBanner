@@ -92,9 +92,24 @@
 }
 
 #pragma mark - 添加UIPageControl
+/**
+ *  添加PageControl
+ */
 - (void)addPageControl{
-#warning 添加UIPageControl
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.mCollectionView.frame)-30, ScreenWidth, 30)];
+    //设置半透明
+    bottomView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [self.view addSubview:bottomView];
     
+    //添加pageControl
+    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, bottomView.y, ScreenWidth, bottomView.height)];
+    pageControl.backgroundColor = [UIColor clearColor];
+    pageControl.numberOfPages = self.dataList.count;
+    pageControl.currentPage = 0;
+    
+    
+    [self.view addSubview:pageControl];
+    self.mPageControl = pageControl;
 }
 
 /**
@@ -164,6 +179,14 @@
 //结束拖拽
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     [self addAutoScrollTimer];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.dataList.count) {
+        //获取当前的NSIndexpath
+        int page = (int)(0.5 + (self.mCollectionView.contentOffset.x / self.mCollectionView.bounds.size.width)) % self.dataList.count;
+        self.mPageControl.currentPage = page;
+    }
 }
 
 @end

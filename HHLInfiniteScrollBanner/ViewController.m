@@ -21,8 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 20, ScreenWidth, ScreenHeight-20)];
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.title = @"无限自动滚动Banner";
+    self.view.backgroundColor = [UIColor whiteColor];
 
     [self setupTableView];
     
@@ -33,9 +33,11 @@
 - (void)setupTableView{
     self.mTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-        
         tableView.delegate = self;
         tableView.dataSource = self;
+        
+        //
+//        tableView.
         
         [self.view addSubview:tableView];
         tableView;

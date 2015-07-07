@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		404489A51B4C1EA800CCC26E /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 404489A41B4C1EA800CCC26E /* UIView+Extension.m */; };
 		40B976731B496F6000F91301 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 40B976721B496F6000F91301 /* main.m */; };
 		40B976761B496F6000F91301 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 40B976751B496F6000F91301 /* AppDelegate.m */; };
 		40B976791B496F6000F91301 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40B976781B496F6000F91301 /* ViewController.m */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		404489A31B4C1EA800CCC26E /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		404489A41B4C1EA800CCC26E /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		40B9766D1B496F6000F91301 /* HHLInfiniteScrollBanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HHLInfiniteScrollBanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40B976711B496F6000F91301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40B976721B496F6000F91301 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -78,6 +81,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		404489A21B4C1E8F00CCC26E /* category */ = {
+			isa = PBXGroup;
+			children = (
+				404489A31B4C1EA800CCC26E /* UIView+Extension.h */,
+				404489A41B4C1EA800CCC26E /* UIView+Extension.m */,
+			);
+			path = category;
+			sourceTree = "<group>";
+		};
 		40B976641B496F6000F91301 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +113,7 @@
 		40B9766F1B496F6000F91301 /* HHLInfiniteScrollBanner */ = {
 			isa = PBXGroup;
 			children = (
+				404489A21B4C1E8F00CCC26E /* category */,
 				40B976961B496FB800F91301 /* Libs */,
 				40B976741B496F6000F91301 /* AppDelegate.h */,
 				40B976751B496F6000F91301 /* AppDelegate.m */,
@@ -294,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				404489A51B4C1EA800CCC26E /* UIView+Extension.m in Sources */,
 				40B9769D1B49773600F91301 /* InfiniteScrollCell.m in Sources */,
 				40B976791B496F6000F91301 /* ViewController.m in Sources */,
 				40B9769A1B49718500F91301 /* InfiniteScrollViewController.m in Sources */,
